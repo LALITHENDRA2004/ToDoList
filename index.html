@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!--- Tailwind CSS & Daisy UI CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.18.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="res/favicon.ico">
+
+    <title>TO-DO App</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Todo List</h1>
+            <!-- Error message -->
+            <div class="alert-message"></div>
+            <div class="input-section">
+                <input type="text" placeholder="Add a todo . . ."
+                    class="input input-bordered input-secondary w-full max-w-xs" />
+                <input type="date" class="input input-bordered input-secondary w-full max-w-xs schedule-date" />
+                <button class="btn btn-secondary add-task-button">
+                    <i class="bx bx-plus bx-sm"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="todos-filter">
+            <div class="dropdown">
+                <label tabindex="0" class="btn m-1">Filter</label>
+                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <li onclick="filterTodos('all')"><a>All</a></li>
+                    <li onclick="filterTodos('pending')"><a>Pending</a></li>
+                    <li onclick="filterTodos('completed')"><a>Completed</a></li>
+                </ul>
+            </div>
+            <button class="btn btn-secondary delete-all-btn">
+                Delete All
+            </button>
+        </div>
+
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="todos-list-body">
+            </tbody>
+        </table>
+
+    </div>
+
+    <!--Theme switcher-->
+    <div class="theme-switcher">
+        <label class="swap swap-rotate btn btn-ghost btn-circle">
+            <input type="checkbox" id="theme-toggle" />
+            <!-- sun icon -->
+            <i class='bx bx-sun swap-on bx-sm'></i>
+            <!-- moon icon -->
+            <i class='bx bx-moon swap-off bx-sm'></i>
+        </label>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <input type="checkbox" id="confirm-modal" class="modal-toggle" />
+    <div class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg" id="modal-title">Confirm Action</h3>
+            <p class="py-4" id="modal-message">Are you sure you want to proceed?</p>
+            <div class="modal-action">
+                <button type="button" class="btn" id="modal-cancel-btn">Cancel</button>
+                <button type="button" class="btn btn-error" id="modal-confirm-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
