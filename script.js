@@ -18,7 +18,7 @@ class TodoManager {
   constructor(todoItemFormatter) {
     this.todos = [];
     this.todoItemFormatter = todoItemFormatter;
-    this.apiUrl = 'http://localhost:5000/api/todos';
+    this.apiUrl = 'http://localhost:5001/api/todos';
   }
 
   async fetchTodos() {
@@ -39,12 +39,16 @@ class TodoManager {
       dueDate: this.todoItemFormatter.formatDueDate(dueDate)
     };
     try {
+      console.log("Attempting to POST todo:", todoData);
       const response = await fetch(this.apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(todoData)
       });
-      if (!response.ok) throw new Error("Failed to add task");
+      if (!response.ok) {
+        console.error("POST failed with status:", response.status);
+        throw new Error("Failed to add task");
+      }
       const newTodo = await response.json();
       this.todos.unshift(newTodo);
       return newTodo;
@@ -182,7 +186,7 @@ class UIManager {
   }
 
   async handleAddTodo() {
-    const task = this.taskInput.value;
+    const task = this.taskInput.value.trim();
     const dueDate = this.dateInput.value;
     if (task === "") {
       this.showAlertMessage("Please enter a task", "error");

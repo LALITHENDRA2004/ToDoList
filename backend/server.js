@@ -11,14 +11,20 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/todolist')
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Could not connect to MongoDB', err));
 
 // Routes
+app.get('/api/ping', (req, res) => res.json({ message: 'pong' }));
+
 // Get all todos
 app.get('/api/todos', async (req, res) => {
     try {
@@ -31,6 +37,7 @@ app.get('/api/todos', async (req, res) => {
 
 // Add a new todo
 app.post('/api/todos', async (req, res) => {
+    console.log("POST /api/todos - body:", req.body);
     const todo = new Todo({
         task: req.body.task,
         dueDate: req.body.dueDate
@@ -40,6 +47,7 @@ app.post('/api/todos', async (req, res) => {
         const newTodo = await todo.save();
         res.status(201).json(newTodo);
     } catch (err) {
+        console.error("Error saving todo:", err);
         res.status(400).json({ message: err.message });
     }
 });
