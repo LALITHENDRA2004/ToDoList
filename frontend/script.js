@@ -18,7 +18,7 @@ class TodoManager {
   constructor(todoItemFormatter) {
     this.todos = [];
     this.todoItemFormatter = todoItemFormatter;
-    this.apiUrl = 'http://localhost:5001/api/todos';
+    this.apiUrl = 'https://todolist-sej8.onrender.com/api/todos';
   }
 
   async fetchTodos() {
@@ -39,14 +39,12 @@ class TodoManager {
       dueDate: this.todoItemFormatter.formatDueDate(dueDate)
     };
     try {
-      console.log("Attempting to POST todo:", todoData);
       const response = await fetch(this.apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(todoData)
       });
       if (!response.ok) {
-        console.error("POST failed with status:", response.status);
         throw new Error("Failed to add task");
       }
       const newTodo = await response.json();
